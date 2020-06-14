@@ -1,0 +1,4 @@
+[submodule "go-app"]
+	path = charts/go-app
+	url = https://github.com/shurshun/go-app-chart
+	branch = master

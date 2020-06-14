@@ -1,0 +1,43 @@
+name: CI
+on: [push]
+jobs:
+  helm:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+      with:
+        submodules: 'true'
+    - name: Build charts
+      shell: bash
+      env:
+        HELM_VERSION: v3.2.3
+      run: |
+        wget --no-verbose "https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz" -O - | tar -zx -O linux-amd64/helm > helm
+        chmod +x helm
+
+        ./helm version
+        mkdir /tmp/charts
+
+        for dir in charts/*; do ./helm package -d /tmp/charts "${dir}"; done
+
+        ./helm repo index /tmp/charts
+    - name: Checkout gh-pages
+      if: github.ref == 'refs/heads/master'
+      uses: actions/checkout@v2
+      with:
+        ref: gh-pages
+    - name: Push gh-pages
+      if: github.ref == 'refs/heads/master'
+      shell: bash
+      run: |
+        git config --global user.name 'shurshun'
+        git config --global user.email '4lifenet@gmail.com'
+
+        mv /tmp/charts/* .
+
+        git add $(git ls-files -o --exclude-standard *.tgz)
+        git add index.yaml
+        git status
+        git commit -m 'Update Helm Repo'
+        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git gh-pages
