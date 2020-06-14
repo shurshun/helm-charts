@@ -1,0 +1,22 @@
+apiVersion: v1
+entries:
+  go-app:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2020-06-14T18:16:24.068720214Z"
+    description: This chart is suitable for various type of applications (golang,
+      nodejs, etc...)
+    digest: d09744c9ecc1a30238e395cb060ed10b3b9355d86ac7479b2d6285c7326475a4
+    home: https://github.com/shurshun/go-app-chart
+    keywords:
+    - helm
+    - kubernetes
+    kubeVersion: '>=1.10.0-0'
+    maintainers:
+    - email: 4lifenet@gmail.com
+      name: Korviakov Andrey
+    name: go-app
+    urls:
+    - go-app-1.0.0.tgz
+    version: 1.0.0
+generated: "2020-06-14T18:16:24.067299105Z"
